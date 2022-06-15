@@ -28,8 +28,13 @@ def add_mental_vars_inplace(data):
     data['ANXIETY_SCORE'] = data['ANXIOUS'] + data['WORRY'] - 2
     data['DEPRESSION_SCORE'] = data['INTEREST'] + data['DOWN'] - 2
 
-    data['ANXIETY_DISORDER']    = data['ANXIETY_SCORE'].apply(lambda x: float(x >= 3) if not np.isnan(x) else np.nan)
-    data['DEPRESSION_DISORDER'] = data['DEPRESSION_SCORE'].apply(lambda x: float(x >= 3) if not np.isnan(x) else np.nan)
+    data['ANXIETY_DISORDER'] = data['ANXIETY_SCORE'].apply(
+        lambda x: np.nan if np.isnan(x) else float(x >= 3)
+    )
+
+    data['DEPRESSION_DISORDER'] = data['DEPRESSION_SCORE'].apply(
+        lambda x: np.nan if np.isnan(x) else float(x >= 3)
+    )
 
 def replace_codes_with_nan_inplace(data):
     data.replace(-88, np.nan, inplace=True)
